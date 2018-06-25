@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- Project information -->
-  <groupId>com.punchingwood</groupId>
-  <artifactId>minechat</artifactId>
+  <groupId>com.punchingwood.minechat</groupId>
+  <artifactId>MineChat</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>minechat</name>
   <description>A simple Minecraft messaging system</description>
@@ -53,7 +53,6 @@
       <scope>provided</scope>
     </dependency>
 
-  
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

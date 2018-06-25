@@ -3,6 +3,7 @@ package com.punchingwood.minechat.formatting;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
 
 import com.punchingwood.minechat.PluginPermission;
@@ -43,7 +44,11 @@ public class ColoredMessage implements Message
     
     public ColoredMessage( final String format )
     {
-        this( Bukkit.getConsoleSender(), format );
+        assert format != null;
+
+        this.format = format;
+        this.permissible = null;
+        this.formattedMessage = null;
     }
     
     //-------------------------------------------------------------------------
@@ -61,15 +66,34 @@ public class ColoredMessage implements Message
 
         String result = this.format;
         
-        boolean hasColor = this.permissible.hasPermission( PluginPermission.FORMATTING_COLOR.toString() );
-        boolean hasMagic = this.permissible.hasPermission( PluginPermission.FORMATTING_MAGIC.toString() );
-        boolean hasBold  = this.permissible.hasPermission( PluginPermission.FORMATTING_BOLD.toString() );
-        boolean hasStringthrough = this.permissible.hasPermission( PluginPermission.FORMATTING_STRIKETHROUGH.toString() );
-        boolean hasUnderline = this.permissible.hasPermission( PluginPermission.FORMATTING_UNDERLINE.toString() );
-        boolean hasItalic = this.permissible.hasPermission( PluginPermission.FORMATTING_ITALIC.toString() );
-        boolean hasReset = this.permissible.hasPermission( PluginPermission.FORMATTING_RESET.toString() );
-        boolean hasAll = hasColor && hasMagic && hasBold && hasStringthrough &&
-                         hasUnderline && hasReset;
+        boolean hasColor;
+        boolean hasMagic;
+        boolean hasBold;
+        boolean hasStringthrough;
+        boolean hasUnderline;
+        boolean hasItalic;
+        boolean hasReset;
+
+        if( this.permissible != null ) {
+            hasColor = this.permissible.hasPermission( PluginPermission.FORMATTING_COLOR.toString() );
+            hasMagic = this.permissible.hasPermission( PluginPermission.FORMATTING_MAGIC.toString() );
+            hasBold  = this.permissible.hasPermission( PluginPermission.FORMATTING_BOLD.toString() );
+            hasStringthrough = this.permissible.hasPermission( PluginPermission.FORMATTING_STRIKETHROUGH.toString() );
+            hasUnderline = this.permissible.hasPermission( PluginPermission.FORMATTING_UNDERLINE.toString() );
+            hasItalic = this.permissible.hasPermission( PluginPermission.FORMATTING_ITALIC.toString() );
+            hasReset = this.permissible.hasPermission( PluginPermission.FORMATTING_RESET.toString() );
+        } else {
+            hasColor = true;
+            hasMagic = true;
+            hasBold  = true;
+            hasStringthrough = true;
+            hasUnderline = true;
+            hasItalic = true;
+            hasReset = true;    
+        }
+        
+        boolean hasAll = hasColor && hasMagic && hasBold && 
+                         hasStringthrough && hasUnderline && hasReset;
         // Optimized color replacement
         if( hasAll ) {
             result.replaceAll("&((?i)[0-9a-fk-or])", "\u00A7$1");
