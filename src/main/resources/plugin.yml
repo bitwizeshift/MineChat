@@ -1,0 +1,22 @@
+name: MineChat
+main: com.punchingwood.minechat.MineChat
+version: 1.0.0
+author: Bitwize
+description: Minecraft Chat Management Plugin
+softdepend: [Vault,PermissionsEx, bPermissions]
+commands:
+    say:
+        description: Sends message as server
+        usage: /say <message...>
+        permission: minechat.mod.say
+        permission-message: You don't have <permission>
+    pm:
+        description: Privately messages another player
+        usage: /pm <player> <message...>
+        permission: minechat.pm
+        permission-message: You don't have <permission>
+    minechat:
+        description: reloads configurations
+        usage: /minechat reload
+        permission: minechat.mod
+        permission-message: You don't have <permission>

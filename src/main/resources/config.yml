@@ -1,0 +1,21 @@
+# Manually change which permission system is used
+# Accepted options are: 
+# PermissionsEx, bPermissions, Vault, None, or Auto.
+permission-system: Auto
+
+# Custom message formatting for server communication
+message-format:
+  say:      "&eServer&f: ${message}"
+  chat:     "${prefix}${sender}${suffix}&f: ${message}"
+  pm:
+  	sender:   "&7[to: ${receiver}]&f: ${message}"
+    receiver: "&7[from: ${sender}]&f: ${message}"
+  
+# Allows chatting to only happen when within range
+ranged-chat:
+  enabled: false
+  radius: 100.0
+
+
+# Do not change below this line!
+VERSION: 1
