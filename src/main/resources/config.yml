@@ -5,11 +5,11 @@ permission-system: Auto
 
 # Custom message formatting for server communication
 message-format:
-  say:      "&eServer&f: ${message}"
-  chat:     "${prefix}${sender}${suffix}&f: ${message}"
+  say:      "&{e}Server&{f}: ${message}"
+  chat:     "${sender:prefix}${sender:name}${sender:suffix}&{f}: ${message}"
   pm:
-  	sender:   "&7[to: ${receiver}]&f: ${message}"
-    receiver: "&7[from: ${sender}]&f: ${message}"
+    sender:   "&{7}[to: ${receiver:name}]&{f}: ${message}"
+    receiver: "&{7}[from: ${sender:name}]&{f}: ${message}"
   
 # Allows chatting to only happen when within range
 ranged-chat:

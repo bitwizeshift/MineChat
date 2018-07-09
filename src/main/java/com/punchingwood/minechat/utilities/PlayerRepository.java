@@ -6,8 +6,14 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PlayerRepository
+/*****************************************************************************
+ * A repository which stores an association of player's names with a
+ * reference to the player's instance.
+ *****************************************************************************/
+public final class PlayerRepository
 {
+    // TODO(bitwizeshift): Consider making 'Player' a WeakReference, since 
+    //                     this class has no reason to keep it alive.
     private final Map<String,Player> data;
     
     //-------------------------------------------------------------------------
@@ -32,13 +38,23 @@ public class PlayerRepository
     // Modifiers
     //-------------------------------------------------------------------------
 
-    public void put( Player player )
+    /**
+     * Inserts a player into this PlayerRepository
+     * 
+     * @param player the player to add into the repository
+     */
+    public void put( final Player player )
     {
-        String name = player.getName().toLowerCase();
+        final String name = player.getName().toLowerCase();
         this.data.put(name, player);
     }
     
-    public void remove( Player player )
+    /**
+     * Removes a player from this repository
+     * 
+     * @param player the player to remove
+     */
+    public void remove( final Player player )
     {
         this.data.remove(player.getName().toLowerCase());
     }
@@ -47,7 +63,13 @@ public class PlayerRepository
     // Observers
     //-------------------------------------------------------------------------
 
-    public Player get( String name )
+    /**
+     * Gets an instance of a player by the player's name (case insensitive)
+     * 
+     * @param name the name of the player to retrieve
+     * @return the player instance, if found -- otherwise null
+     */
+    public Player get( final String name )
     {
         return this.data.get(name.toLowerCase());
     }

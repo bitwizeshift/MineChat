@@ -7,8 +7,8 @@
   <!-- Project information -->
   <groupId>com.punchingwood.minechat</groupId>
   <artifactId>MineChat</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>minechat</name>
+  <version>0.0.2-SNAPSHOT</version>
+  <name>MineChat</name>
   <description>A simple Minecraft messaging system</description>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>

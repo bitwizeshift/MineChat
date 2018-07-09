@@ -1,44 +1,53 @@
 package com.punchingwood.minechat.commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-import com.punchingwood.minechat.CommandName;
-import com.punchingwood.minechat.PluginConfiguration;
-import com.punchingwood.minechat.PluginPermission;
+import com.punchingwood.minechat.configuration.PluginConfiguration;
 import com.punchingwood.minechat.formatting.BroadcastMessage;
 import com.punchingwood.minechat.formatting.ColoredMessage;
 import com.punchingwood.minechat.formatting.Message;
+import com.punchingwood.minechat.permissions.PluginPermission;
 
 /**
  * Handles the /say command
  */
-public class SayCommand implements CommandExecutor, PluginCommand
+public class SayCommand extends PluginCommand
 {
+    //-------------------------------------------------------------------------
+    // Static Members
+    //-------------------------------------------------------------------------
+    
+    private static final String NAME          = "say";
+    private static final String DESCRIPTION   = "Broadcasts a message to the server";
+    private static final String USAGE         = "/" + NAME + " <message...>";
+    private static final List<String> ALIASES = Arrays.asList();
+
     //-------------------------------------------------------------------------
     // Members
     //-------------------------------------------------------------------------
 
-    private final CommandName name;
     private final PluginConfiguration config;
     
     //-------------------------------------------------------------------------
     // Constructors
     //-------------------------------------------------------------------------
     
-    /**
+    /** 
      * 
      * 
      * @param command
      */
-    public SayCommand( final CommandName command,
+    public SayCommand( final Plugin plugin,
                        final PluginConfiguration config )
     {
-        this.name = command;
+        super(plugin,NAME,DESCRIPTION,USAGE,ALIASES);
         this.config = config;
     }
     
@@ -47,10 +56,9 @@ public class SayCommand implements CommandExecutor, PluginCommand
     //-------------------------------------------------------------------------
 
     @Override
-    public boolean onCommand( final CommandSender sender, 
-                              final Command command, 
-                              final String label, 
-                              final String[] args )
+    public boolean execute( final CommandSender sender, 
+                            final String label, 
+                            final String[] args )
     {
         if((sender instanceof Player) && 
            !sender.hasPermission(PluginPermission.MOD_COMMAND_SAY.toString())) 
@@ -60,7 +68,7 @@ public class SayCommand implements CommandExecutor, PluginCommand
         }
         
         if (args.length == 0)  {
-            sender.sendMessage(ChatColor.RED + "Usage: " + getUsageString() );
+            sender.sendMessage(ChatColor.RED + "Usage: " + super.getUsage() );
             return false;
         }
 
@@ -74,31 +82,8 @@ public class SayCommand implements CommandExecutor, PluginCommand
     }
     
     //-------------------------------------------------------------------------
-    // PluginCommand
-    //-------------------------------------------------------------------------
-
-    /**
-     * Gets the bound command name for this command
-     * 
-     * @return the command
-     */
-    @Override
-    public String getCommandName() { return name.getName(); }
-
-    //-------------------------------------------------------------------------
     // Private : Observers
     //-------------------------------------------------------------------------
-
-    /**
-     * Gets the usage string for this command
-     * 
-     * @return the usage string
-     * @return
-     */
-    private String getUsageString()
-    {
-        return "/" + getCommandName() + " <message ...>";
-    }
     
     static private String compileMessage( String[] args, int start, int end ) 
     {

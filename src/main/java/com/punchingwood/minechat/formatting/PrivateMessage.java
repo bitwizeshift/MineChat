@@ -42,12 +42,12 @@ public class PrivateMessage implements Message
             group  = "";
         }
         
-        result = result.replace( TemplateToken.PLAYER_PREFIX.getToken(), prefix );
-        result = result.replace( TemplateToken.PLAYER_SUFFIX.getToken(), suffix );
-        result = result.replace( TemplateToken.PLAYER_WORLD.getToken(),  world );
-        result = result.replace( TemplateToken.PLAYER_GROUP.getToken(),  group );
-        result = result.replace( TemplateToken.MESSAGE_SENDER.getToken(), this.sender.getDisplayName() );
-        result = result.replace( TemplateToken.MESSAGE_RECEIVER.getToken(), this.receiver.getDisplayName() );
+        result = result.replace( TemplateToken.SENDER_PREFIX.getToken(), prefix );
+        result = result.replace( TemplateToken.SENDER_SUFFIX.getToken(), suffix );
+        result = result.replace( TemplateToken.SENDER_WORLD.getToken(),  world );
+        result = result.replace( TemplateToken.SENDER_GROUP.getToken(),  group );
+        result = result.replace( TemplateToken.SENDER_NAME.getToken(), this.sender.getDisplayName() );
+        result = result.replace( TemplateToken.RECEIVER_NAME.getToken(), this.receiver.getDisplayName() );
         result = result.replace( TemplateToken.MESSAGE_CONTENT.getToken(), this.message );
 
         final Message colored = new ColoredMessage( result );

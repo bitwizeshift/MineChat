@@ -1,22 +1,32 @@
 package com.punchingwood.minechat.commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.util.StringUtil;
 
-import com.punchingwood.minechat.CommandName;
-import com.punchingwood.minechat.PluginConfiguration;
+import com.punchingwood.minechat.configuration.PluginConfiguration;
 
-public class MineChatCommand implements CommandExecutor, PluginCommand
+public class MineChatCommand extends PluginCommand
 {
+    //-------------------------------------------------------------------------
+    // Static Members
+    //-------------------------------------------------------------------------
+
+    private static final String NAME          = "minechat";
+    private static final String DESCRIPTION   = "Administrative commands for minechat";
+    private static final String USAGE         = "/" + NAME + " reload";
+    private static final List<String> ALIASES = Arrays.asList();
+
     //-------------------------------------------------------------------------
     // Members
     //-------------------------------------------------------------------------
 
-    private final CommandName name;
     private final PluginConfiguration config;
-    
+        
     //-------------------------------------------------------------------------
     // Constructors
     //-------------------------------------------------------------------------
@@ -26,10 +36,10 @@ public class MineChatCommand implements CommandExecutor, PluginCommand
      * 
      * @param command
      */
-    public MineChatCommand( final CommandName command,
+    public MineChatCommand( final Plugin plugin,
                             final PluginConfiguration config )
     {
-        this.name   = command;
+        super(plugin,NAME,DESCRIPTION,USAGE,ALIASES);
         this.config = config;
     }
     
@@ -38,10 +48,9 @@ public class MineChatCommand implements CommandExecutor, PluginCommand
     //-------------------------------------------------------------------------
 
     @Override
-    public boolean onCommand( final CommandSender sender, 
-                              final Command command, 
-                              final String label, 
-                              final String[] args )
+    public boolean execute( final CommandSender sender, 
+                            final String label, 
+                            final String[] args )
     {
         if( args.length!=1 ) return false;
         
@@ -56,13 +65,20 @@ public class MineChatCommand implements CommandExecutor, PluginCommand
         sender.sendMessage(ChatColor.RED + "Unknown command " + args[0]);
         return false;
     }
-
-    //-------------------------------------------------------------------------
-    // PluginCommand
-    //-------------------------------------------------------------------------
-
+    
     @Override
-    public String getCommandName() { return this.name.getName(); }
+    public List<String> tabComplete( final CommandSender sender,
+                                     final String alias,
+                                     final String[] args )
+    {
+        if( args.length != 1 ) return null;
+        
+        final String substr = args[0];
+        if( StringUtil.startsWithIgnoreCase("reload", substr) ) {
+            return Arrays.asList("reload");
+        }
+        return null;
+    }
 
     //-------------------------------------------------------------------------
     // Private : Modifiers

@@ -8,15 +8,35 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.punchingwood.minechat.utilities.PlayerRepository;
 
+/*****************************************************************************
+ * A listener that updates on player activity changes
+ *****************************************************************************/
 public class PlayerActivityListener implements Listener
 {
-    private final PlayerRepository players;
+    //-------------------------------------------------------------------------
+    // Members
+    //-------------------------------------------------------------------------
+
+    private final PlayerRepository repository;
     
-    public PlayerActivityListener( final PlayerRepository players )
+    //-------------------------------------------------------------------------
+    // Constructors
+    //-------------------------------------------------------------------------
+    
+    /**
+     * Constructs an activity listener from a given player repository
+     * 
+     * @param repository
+     */
+    public PlayerActivityListener( final PlayerRepository repository )
     {
-        this.players = players;
+        this.repository = repository;
     }
     
+    //-------------------------------------------------------------------------
+    // Event Handling
+    //-------------------------------------------------------------------------
+
     /**
      * Event set for when player joins the server.
      * Records player UUID and name on login.
@@ -24,9 +44,9 @@ public class PlayerActivityListener implements Listener
      * @param event
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerJoin(PlayerJoinEvent event) 
+    public void onPlayerJoin( final PlayerJoinEvent event ) 
     {
-        this.players.put(event.getPlayer());
+        this.repository.put(event.getPlayer());
     }
 
     /**
@@ -36,9 +56,9 @@ public class PlayerActivityListener implements Listener
      * @param event
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerQuit(PlayerQuitEvent event)
+    public void onPlayerQuit( final PlayerQuitEvent event )
     {
-        this.players.remove(event.getPlayer());
+        this.repository.remove(event.getPlayer());
     }
 
 }

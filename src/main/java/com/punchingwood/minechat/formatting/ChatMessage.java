@@ -20,7 +20,7 @@ public class ChatMessage implements Message
     //-------------------------------------------------------------------------
 
     public ChatMessage( final Player sender,
-                          final String format )
+                        final String format )
     {
         this.sender = sender;
         this.format = format;
@@ -58,11 +58,12 @@ public class ChatMessage implements Message
             group  = "";
         }
         
-        result = result.replace( TemplateToken.PLAYER_PREFIX.getToken(), prefix );
-        result = result.replace( TemplateToken.PLAYER_SUFFIX.getToken(), suffix );
-        result = result.replace( TemplateToken.PLAYER_WORLD.getToken(),  world );
-        result = result.replace( TemplateToken.PLAYER_GROUP.getToken(),  group );
-        result = result.replace( TemplateToken.MESSAGE_SENDER.getToken(), SENDER_PLACEHOLDER );
+        result = result.replace( TemplateToken.SENDER_PREFIX.getToken(), prefix );
+        result = result.replace( TemplateToken.SENDER_SUFFIX.getToken(), suffix );
+        result = result.replace( TemplateToken.SENDER_WORLD.getToken(),  world );
+        result = result.replace( TemplateToken.SENDER_GROUP.getToken(),  group );
+        result = result.replace( TemplateToken.SENDER_NAME.getToken(), SENDER_PLACEHOLDER );
+
         result = result.replace( TemplateToken.MESSAGE_CONTENT.getToken(), MESSAGE_PLACEHOLDER );
 
         final Message colored = new ColoredMessage( result );

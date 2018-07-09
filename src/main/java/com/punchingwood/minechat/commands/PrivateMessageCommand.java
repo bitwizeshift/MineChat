@@ -1,35 +1,40 @@
 package com.punchingwood.minechat.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-import com.punchingwood.minechat.CommandName;
-import com.punchingwood.minechat.PluginConfiguration;
-import com.punchingwood.minechat.PluginPermission;
+import com.punchingwood.minechat.completions.PlayerCompletion;
+import com.punchingwood.minechat.configuration.PluginConfiguration;
 import com.punchingwood.minechat.formatting.ColoredMessage;
 import com.punchingwood.minechat.formatting.Message;
 import com.punchingwood.minechat.formatting.PrivateMessage;
+import com.punchingwood.minechat.permissions.PluginPermission;
 import com.punchingwood.minechat.utilities.PlayerRepository;
 
-public class PrivateMessageCommand implements CommandExecutor, PluginCommand
+public class PrivateMessageCommand extends PluginCommand
 {
     //-------------------------------------------------------------------------
     // Static Members
     //-------------------------------------------------------------------------
     
-    static private final String LAST_PLAYER_NAME = "-";
+    private static final String LAST_PLAYER_NAME = "-";
+    private static final String NAME          = "pm";
+    private static final String DESCRIPTION   = "Privately messages another player";
+    private static final String USAGE         = "/" + NAME + " <player> <message...>";
+    private static final List<String> ALIASES = Arrays.asList();
 
     //-------------------------------------------------------------------------
     // Members
     //-------------------------------------------------------------------------
 
-    private final CommandName name;
     private final PlayerRepository players;
     private final PluginConfiguration config;
     private final Map<Player,Player> lastContact;
@@ -38,11 +43,11 @@ public class PrivateMessageCommand implements CommandExecutor, PluginCommand
     // Constructors
     //-------------------------------------------------------------------------
     
-    public PrivateMessageCommand( final CommandName name, 
+    public PrivateMessageCommand( final Plugin plugin,
                                   final PluginConfiguration config,
                                   final PlayerRepository players )
     {
-        this.name        = name;
+        super(plugin,NAME,DESCRIPTION,USAGE,ALIASES);
         this.config      = config;
         this.players     = players;
         this.lastContact = new HashMap<Player,Player>();
@@ -67,24 +72,23 @@ public class PrivateMessageCommand implements CommandExecutor, PluginCommand
      * @param args Passed command arguments
      */
     @Override
-    public boolean onCommand( final CommandSender sender, 
-                              final Command command, 
-                              final String label, 
-                              final String[] args )
+    public boolean execute( final CommandSender sender, 
+                            final String label, 
+                            final String[] args )
     {        
         if( !(sender instanceof Player) ) {
-            sender.sendMessage(ChatColor.RED + "Only players can use /" + this.getCommandName());
-            return false;
+            sender.sendMessage(ChatColor.RED + "Only players can use /" + label );
+            return true;
         }
                 
         if( !sender.hasPermission( PluginPermission.COMMAND_PRIVATE_MESSAGE.toString() ) ) {
             sender.sendMessage(ChatColor.RED + "Insufficient permissions");
-            return false;   
+            return true;   
         }
         
         if( args.length <= 1 ) {
-            sender.sendMessage(ChatColor.RED + "Usage: " + getUsage( label ) );
-            return false;
+            sender.sendMessage(ChatColor.RED + "Usage: " + super.getUsage() );
+            return true;
         }
         
         final String name = args[0];
@@ -134,7 +138,7 @@ public class PrivateMessageCommand implements CommandExecutor, PluginCommand
             return false;
         }
         
-        final String  message = compileMessage( args, 1, args.length-1 );
+        final String  message = compileMessage( args, 1, args.length );
         final Message colored = new ColoredMessage( sender, message );
 
         { // Determine sender message
@@ -160,25 +164,34 @@ public class PrivateMessageCommand implements CommandExecutor, PluginCommand
         return true;
     }
 
-    //-------------------------------------------------------------------------
-    //
-    //-------------------------------------------------------------------------
-
     @Override
-    public String getCommandName() { return this.name.getName(); }
-
-    //-------------------------------------------------------------------------
-
-    /** 
-     * Gets the usage string for this command 
-     * 
-     * @return the usage string
-     */
-    private String getUsage( final String label )
+    public List<String> tabComplete( final CommandSender sender,
+                                     final String alias,
+                                     final String[] args )
     {
-        return "/" + label + " <user> <message...>";
+        if( !(sender instanceof Player) ) return null;
+        if( args.length > 1 ) return null;
+        
+        final List<String> completions = new ArrayList<String>();
+
+        if( args.length == 0 || (args.length == 1 && args[0].equals("") ) ) {
+
+            // If there is a last contact, add it to the completion
+            if( this.lastContact.get( (Player) sender ) != null ) 
+            {
+                completions.add(LAST_PLAYER_NAME);
+            }
+            
+            completions.addAll(PlayerCompletion.completeWithAllPlayers());
+            
+            return completions;
+        }
+        
+        return PlayerCompletion.completeWithPlayer( args[0] );
     }
 
+    //-------------------------------------------------------------------------
+    //
     //-------------------------------------------------------------------------
 
     static private String compileMessage( String[] args, int start, int end ) 

@@ -1,42 +1,83 @@
 package com.punchingwood.minechat.formatting;
 
-/**
+/*****************************************************************************
  * The tokens used for message formatting.
  *
- */
+ *****************************************************************************/
 public enum TemplateToken
 {
-    // Player details
-    PLAYER_PREFIX("prefix"),
-    PLAYER_SUFFIX("suffix"),
-    PLAYER_WORLD("world"),
-    PLAYER_GROUP("group"),
+    //-------------------------------------------------------------------------
+    // Sender Tokens
+    //-------------------------------------------------------------------------
     
-    // Message pieces
-    MESSAGE_SENDER("sender"),
-    MESSAGE_RECEIVER("receiver"),
+    /** Token for the prefix of the message sender */
+    SENDER_PREFIX("sender:prefix"),
+    /** Token for the suffix of the message sender */
+    SENDER_SUFFIX("sender:suffix"),
+    /** Token for the message sender's world */
+    SENDER_WORLD("sender:world"),
+    /** Token for the message sender's group */
+    SENDER_GROUP("sender:group"),
+    /** Token for the message sender's name */
+    SENDER_NAME("sender:name"),
+    /** Token for the message sender's display name */
+    SENDER_DISPLAY_NAME("sender:display-name"),
+
+    //-------------------------------------------------------------------------
+    // Receiver Tokens
+    //-------------------------------------------------------------------------
+
+    /** Token for the prefix of the message receiver */
+    RECEIVER_PREFIX("receiver:prefix"),
+    /** Token for the suffix of the message receiver */
+    RECEIVER_SUFFIX("receiver:suffix"),
+    /** Token for the message receiver's world */
+    RECEIVER_WORLD("receiver:world"),
+    /** Token for the message receiver's group */
+    RECEIVER_GROUP("receiver:group"),
+    /** Token for the message receiver's name */
+    RECEIVER_NAME("receiver:name"),
+    /** Token for the message receiver's display name */
+    RECEIVER_DISPLAY_NAME("receiver:display-name"),
+    
+    //-------------------------------------------------------------------------
+    // Message Tokens
+    //-------------------------------------------------------------------------
+
+    /** Token for the message contents */
     MESSAGE_CONTENT("message"),
-   
-    // Server-related
-    SERVER_NAME("server"),
     
-    // Time-related
-    SERVER_TIME_SECOND("s"),
-    SERVER_TIME_SECOND_PADDED("ss"),
-    SERVER_TIME_MINUTE("m"),
-    SERVER_TIME_MINUTE_PADDED("mm"),
-    SERVER_TIME_12HOUR("h"),
-    SERVER_TIME_12HOUR_PADDED("hh"),
-    SERVER_TIME_24HOUR("H"),
-    SERVER_TIME_24HOUR_PADDED("HH"),
-    SERVER_TIME_AM_PM_LOWER("a"),
-    SERVER_TIME_AM_PM_UPPER("A"),
+    //-------------------------------------------------------------------------
+    // Time-related Tokens
+    //-------------------------------------------------------------------------
+
+    /** Token for the server-time's second (no 0 padding) */
+    TIME_SECOND("s"),
+    /** Token for the server-time's second (with 0 padding) */
+    TIME_SECOND_PADDED("ss"),
+    /** Token for the server-time's minute (no 0 padding) */
+    TIME_MINUTE("m"),
+    /** Token for the server-time's minute (with 0 padding) */
+    TIME_MINUTE_PADDED("mm"),
+    /** Token for the server-time's hour in 12-hour format (no 0 padding) */
+    TIME_12HOUR("h"),
+    /** Token for the server-time's hour in 12-hour format (with 0 padding) */
+    TIME_12HOUR_PADDED("hh"),
+    /** Token for the server-time's hour in 24-hour format (no 0 padding) */
+    TIME_24HOUR("H"),
+    /** Token for the server-time's hour in 24-hour format (with 0 padding) */
+    TIME_24HOUR_PADDED("HH"),
+    /** Token for am/pm (lowercase) */
+    TIME_AM_PM_LOWER("a"),
+    /** Token for AM/PM (uppercase) */
+    TIME_AM_PM_UPPER("A"),
     ;
     
     //-------------------------------------------------------------------------
     // Members
     //-------------------------------------------------------------------------
 
+    /** The string representation of the token */
     private final String token;
 
     //-------------------------------------------------------------------------
@@ -48,7 +89,7 @@ public enum TemplateToken
      * 
      * @param token the token that represents the message format
      */
-    private TemplateToken( String token )
+    private TemplateToken( final String token )
     {
         this.token = token;
     }

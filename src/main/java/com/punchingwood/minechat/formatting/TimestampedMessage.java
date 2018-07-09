@@ -35,16 +35,16 @@ public class TimestampedMessage implements Message
         final int hour12 = calendar.get(Calendar.HOUR);
         final int hour24 = calendar.get(Calendar.HOUR_OF_DAY);
         
-        result = result.replace(TemplateToken.SERVER_TIME_SECOND.getToken(), String.valueOf(second));
-        result = result.replace(TemplateToken.SERVER_TIME_SECOND_PADDED.getToken(), String.format("%02d", second));
-        result = result.replace(TemplateToken.SERVER_TIME_MINUTE.getToken(),  String.valueOf(minute));
-        result = result.replace(TemplateToken.SERVER_TIME_MINUTE_PADDED.getToken(), String.format("%02d", minute));
-        result = result.replace(TemplateToken.SERVER_TIME_12HOUR.getToken(),  String.valueOf(hour12));
-        result = result.replace(TemplateToken.SERVER_TIME_12HOUR_PADDED.getToken(), String.format("%02d", hour12));
-        result = result.replace(TemplateToken.SERVER_TIME_24HOUR.getToken(),  String.valueOf(hour24));
-        result = result.replace(TemplateToken.SERVER_TIME_24HOUR_PADDED.getToken(), String.format("%02d", hour24));
-        result = result.replace(TemplateToken.SERVER_TIME_AM_PM_LOWER.getToken(),  (calendar.get(Calendar.AM_PM) == 0) ? "am" : "pm");
-        result = result.replace(TemplateToken.SERVER_TIME_AM_PM_UPPER.getToken(),  (calendar.get(Calendar.AM_PM) == 0) ? "AM" : "PM");
+        result = result.replace(TemplateToken.TIME_SECOND.getToken(), String.valueOf(second));
+        result = result.replace(TemplateToken.TIME_SECOND_PADDED.getToken(), String.format("%02d", second));
+        result = result.replace(TemplateToken.TIME_MINUTE.getToken(),  String.valueOf(minute));
+        result = result.replace(TemplateToken.TIME_MINUTE_PADDED.getToken(), String.format("%02d", minute));
+        result = result.replace(TemplateToken.TIME_12HOUR.getToken(),  String.valueOf(hour12));
+        result = result.replace(TemplateToken.TIME_12HOUR_PADDED.getToken(), String.format("%02d", hour12));
+        result = result.replace(TemplateToken.TIME_24HOUR.getToken(),  String.valueOf(hour24));
+        result = result.replace(TemplateToken.TIME_24HOUR_PADDED.getToken(), String.format("%02d", hour24));
+        result = result.replace(TemplateToken.TIME_AM_PM_LOWER.getToken(),  (calendar.get(Calendar.AM_PM) == 0) ? "am" : "pm");
+        result = result.replace(TemplateToken.TIME_AM_PM_UPPER.getToken(),  (calendar.get(Calendar.AM_PM) == 0) ? "AM" : "PM");
 
         return result;
     }

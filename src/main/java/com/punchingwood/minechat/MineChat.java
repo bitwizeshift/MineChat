@@ -1,13 +1,19 @@
 package com.punchingwood.minechat;
 
-import com.punchingwood.minechat.commands.PluginCommand;
 import com.punchingwood.minechat.commands.MineChatCommand;
+import com.punchingwood.minechat.commands.PluginCommand;
 import com.punchingwood.minechat.commands.PrivateMessageCommand;
 import com.punchingwood.minechat.commands.SayCommand;
+import com.punchingwood.minechat.configuration.PluginConfiguration;
 import com.punchingwood.minechat.listeners.MessageListener;
 import com.punchingwood.minechat.listeners.PlayerActivityListener;
 import com.punchingwood.minechat.utilities.PlayerRepository;
 
+import java.lang.reflect.Field;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,7 +41,7 @@ public class MineChat extends JavaPlugin
     public void onEnable() 
     {
         initializeConfiguration();
-
+        
         initializeCommands();
         initializeListeners();
         
@@ -47,11 +53,11 @@ public class MineChat extends JavaPlugin
     private void initializeCommands()
     {
         this.sayCommand      
-            = new SayCommand(CommandName.SAY,this.config);
+            = new SayCommand(this,this.config);
         this.pmCommand       
-            = new PrivateMessageCommand(CommandName.PRIVATE_MESSAGE,this.config,this.players);
+            = new PrivateMessageCommand(this,this.config,this.players);
         this.mineChatCommand 
-            = new MineChatCommand(CommandName.MINECHAT, this.config);
+            = new MineChatCommand(this,this.config);
     }
     
     private void initializeListeners()
@@ -97,9 +103,23 @@ public class MineChat extends JavaPlugin
         registerCommand( this.mineChatCommand );
     }
     
-    private <E extends PluginCommand> void registerCommand( E command )
+    private void registerCommand( BukkitCommand command )
     {
+        CommandMap map = null;
+        Field field;
+
+        try {
+            field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            field.setAccessible(true);
+            map = (CommandMap)field.get(Bukkit.getServer());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        
         assert command != null;
-        getCommand(command.getCommandName()).setExecutor(command);
+
+        if (map.getCommand(command.getName()) == null) {
+            map.register(command.getName(), command);
+        }
     }
 }

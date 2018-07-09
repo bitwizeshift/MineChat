@@ -13,10 +13,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.punchingwood.minechat.PluginConfiguration;
-import com.punchingwood.minechat.PluginPermission;
 import com.punchingwood.minechat.formatting.ColoredMessage;
 import com.punchingwood.minechat.formatting.Message;
+import com.punchingwood.minechat.permissions.PluginPermission;
+import com.punchingwood.minechat.configuration.PluginConfiguration;
 import com.punchingwood.minechat.formatting.ChatMessage;
 
 public class MessageListener implements Listener
@@ -69,7 +69,7 @@ public class MessageListener implements Listener
         final double distance = Math.pow(range, 2);
                 
         // Range override retrieves all online playerss
-        if( sender.hasPermission(PluginPermission.RANGE_OVERRIDE.toString()) ) {
+        if( sender.hasPermission(PluginPermission.MOD_RANGE_OVERRIDE.toString()) ) {
             return Bukkit.getServer().getOnlinePlayers();
         }
         

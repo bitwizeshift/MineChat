@@ -5,17 +5,6 @@ author: Bitwize
 description: Minecraft Chat Management Plugin
 softdepend: [Vault,PermissionsEx, bPermissions]
 
-# List of commands
-commands:
-    say:
-        description: Sends message as server
-        usage: /<command> [message]
-    pm:
-        description: Privately messages another player
-        usage: /<command> [player] [message]
-    minechat:
-        description: reloads configurations
-        usage: |
-            /<command>:
-            Example: /<command> help - See the list of commands this plugin suppots
-            Example: /<command> reload - reloads this plugin's configuration
+
+# Note: both commands and their associated permissions 
+# are all managed programmatically
