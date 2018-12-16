@@ -21,7 +21,7 @@ dependencies {
     compileOnly 'net.milkbowl.vault:VaultAPI:1.6'
 }
 
-group = 'com.punchingwood.minechat'
+group = 'com.rodusek.minechat'
 version = '0.0.2-SNAPSHOT'
 description = 'MineChat'
 sourceCompatibility = '1.8'

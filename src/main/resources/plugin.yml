@@ -1,5 +1,5 @@
 name: MineChat
-main: com.punchingwood.minechat.MineChat
+main: com.rodusek.minechat.MineChat
 version: 0.0.2
 author: Bitwize
 description: Minecraft Chat Management Plugin
