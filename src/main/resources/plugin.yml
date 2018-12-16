@@ -1,6 +1,6 @@
 name: MineChat
 main: com.punchingwood.minechat.MineChat
-version: 1.0.0
+version: 0.0.2
 author: Bitwize
 description: Minecraft Chat Management Plugin
 softdepend: [Vault,PermissionsEx, bPermissions]
